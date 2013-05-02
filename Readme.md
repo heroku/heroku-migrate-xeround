@@ -11,10 +11,21 @@ A heroku plugin for exporting from [Xeround][1] and importing to [ClearDB][2].
 
 ## Usage
 
-    $ heroku xeround:export -a APPNAME
+These instructions assume you would like to move a database from Xeround to
+ClearDB. Unless you have already done so, install the ClearDB add-on for your
+application:
+
+    $ export APPNAME=<your app name>
+    $ heroku addons:add cleardb -a $APPNAME
+
+Run the following command to export from Xeround:
+
+    $ heroku xeround:export -a $APPNAME
     ...
 
-    $ heroku cleardb:import -a APPNAME
+Then run this command to import into ClearDB:
+
+    $ heroku cleardb:import -a $APPNAME
     ...
 
 ## License
