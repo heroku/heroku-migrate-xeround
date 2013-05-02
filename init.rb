@@ -1,2 +1,2 @@
-require 'heroku/command/cleardb'
-require 'heroku/command/xeround'
+require File.expand_path("../lib/heroku/command/cleardb", __FILE__)
+require File.expand_path("../lib/heroku/command/xeround", __FILE__)
