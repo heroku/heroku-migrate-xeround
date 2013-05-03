@@ -12,8 +12,6 @@ class Heroku::Command::Xeround < Heroku::Command::Base
   #
   #   heroku xeround:export -a APPNAME
   def export
-    exit_for_appname unless heroku_app_name
-
     host, port, user, pass, db = get_xeround_config_vars
 
     puts 'Exporting from Xeround...'
@@ -23,17 +21,8 @@ class Heroku::Command::Xeround < Heroku::Command::Base
 
   private
 
-  def exit_for_appname
-    message = <<-ERROR
-No app specified.
-Run this command from an app folder or specify which app to use with --app APP.
-ERROR
-
-    error message
-  end
-
   def get_xeround_config_vars
-    url = `heroku config:get XEROUND_DATABASE_URL -a #{heroku_app_name}`.strip
+    url = `heroku config:get XEROUND_DATABASE_URL -a #{app}`.strip
 
     if url.empty?
       error 'Your app is missing the XEROUND_DATABASE_URL environment variable'
@@ -45,10 +34,6 @@ ERROR
 
   rescue URI::InvalidURIError
     error('The XEROUND_DATABASE_URL is not a valid URI')
-  end
-
-  def heroku_app_name
-    @app ||= Heroku::Command.current_options[:app] || extract_app_in_dir(Dir.pwd)
   end
 
 end
